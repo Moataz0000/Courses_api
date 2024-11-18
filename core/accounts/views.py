@@ -31,6 +31,28 @@ def sign_up(request):
 
 
 
+def sign_in(request):
+    ERROR = None
+    if request.user.is_authenticated:
+        return redirect('courses:subject_courses_list')
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('courses:subject_courses_list')
+        else:
+            ERROR = 'Invalid credentials!, Password or username is invalid!'
+    
+    
+    context = {
+        'error':ERROR
+    }        
+    
+    return render(request, 'accounts/sing_in.html', context)
+
 
 def sign_out(request):
     logout(request)
