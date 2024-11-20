@@ -1,1 +1,1 @@
-# Elearning_Platform
+# Courses_Platform
