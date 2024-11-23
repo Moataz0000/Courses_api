@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.utils.text import slugify
 
 
 
@@ -29,7 +30,7 @@ class Course(models.Model):
     owner = models.ForeignKey(User, related_name='courses_created', on_delete=models.CASCADE)  
     subject = models.ForeignKey(Subject, related_name='courses', on_delete=models.CASCADE)   
     title = models.CharField(max_length=250)
-    slug  = models.SlugField(max_length=250, unique=True) 
+    slug  = models.SlugField(max_length=250, unique=True, blank=True, null=True) 
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=2, choices=Status, default=Status.AVAILABLE)
@@ -40,6 +41,15 @@ class Course(models.Model):
         
     def __str__(self) -> str:
         return str(self.title)  
+    
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)    
+    
+    
+
     
     
     

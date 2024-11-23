@@ -61,22 +61,21 @@ def sign_out(request):
     return redirect('accounts:sign_up')
 
 
-
 @login_required(login_url='accounts:sign_up')
-def edit_profile(requset):
-    profile = get_object_or_404(InstructorProfile, user=requset.user)
-    form    = InstructorProfileForm(instance=profile)
-    if requset.method == 'POST':
-        form = InstructorProfileForm(requset.POST, requset.FILES, instance=profile)
+def edit_profile(request):
+    profile = get_object_or_404(InstructorProfile, user=request.user)
+    form = InstructorProfileForm(instance=profile)
+    if request.method == 'POST':
+        form = InstructorProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('accounts:view-profile')
     
     context = {
-        'form':form,
-    }    
-    
-    return render(requset, 'accounts/edit_profile.html', context)
+        'form': form,
+    }
+    return render(request, 'accounts/edit_profile.html', context)
+
 
 
 @login_required(login_url='accounts:sign_up')

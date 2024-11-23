@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Subject, Course
-
-
+from django.contrib.auth.decorators import login_required
+from .forms import CourseForm
 
 
 
@@ -21,3 +21,20 @@ def course_detail(request, slug):
 
 
 
+@login_required
+def add_course(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            course = form.save(commit=False)
+            course.owner = request.user
+            course.save()
+            return redirect('courses:subject_courses_list')
+    else:
+        form = CourseForm()    
+    
+    context = {
+        'form':form
+    }
+    
+    return render(request, 'course/add_course.html', context)
