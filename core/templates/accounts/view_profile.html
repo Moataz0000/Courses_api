@@ -52,15 +52,25 @@
 
         <!-- Courses Section -->
         <div class="mt-8">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Courses by John Doe</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Courses by {{ profile.user.username }}</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                {% for course in courses %}
+                    
+                    
                 <!-- Course Card -->
                 <div class="bg-white rounded-lg shadow-lg p-4">
                     <img src="https://via.placeholder.com/300x200" alt="Course Thumbnail" class="rounded-lg mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Mastering Django</h3>
-                    <p class="text-gray-600 mt-2">Learn Django from basics to advanced and build real-world projects.</p>
-                    <a href="#" class="block mt-4 text-blue-500 font-medium hover:underline">View Course →</a>
+                    <h3 class="text-lg font-semibold text-gray-800">{{course.title}}</h3>
+                    <p class="text-gray-600 mt-2">{{ course.overview }}</p>
+                    <a href="{% url 'courses:course_detail' slug=course.slug %}" class="block mt-4 text-blue-500 font-medium hover:underline">View Course →</a>
+                    <a href="{% url 'courses:edit_course' slug=course.slug %}" class="block mt-4 text-blue-500 font-medium hover:underline">Edit Course →</a>
+
                 </div>
+                {% endfor %}
+
+
+               
                 <!-- Repeat Course Cards as needed -->
             </div>
         </div>

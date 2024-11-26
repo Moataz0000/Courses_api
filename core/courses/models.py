@@ -44,7 +44,7 @@ class Course(models.Model):
     
     
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.slug or self.title != Course.objects.get(pk=self.pk).title if self.pk else None:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)    
     

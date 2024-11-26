@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from .models import InstructorProfile
 from .forms import InstructorProfileForm
 from django.contrib.auth.decorators import login_required
-
+from courses.models import Course
 
 
 def sign_up(request):
@@ -81,7 +81,11 @@ def edit_profile(request):
 @login_required(login_url='accounts:sign_up')
 def view_profile(request):
     profile = get_object_or_404(InstructorProfile, user=request.user)
+    courses = Course.objects.filter(owner=request.user)
     context = {
-        'profile':profile
+        'profile':profile,
+        'courses': courses,
     }
     return render(request, 'accounts/view_profile.html', context)
+
+
