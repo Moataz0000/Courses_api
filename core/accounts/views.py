@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from courses.models import Course
 
 
+
+
+
 def sign_up(request):
     
     form = SignUpForm()

@@ -6,11 +6,19 @@ from .models import InstructorProfile
 
 
 class SignUpForm(UserCreationForm):
+    
+    ROLE_CHOICES = (
+        ('student', 'Student'),
+        ('instructor', 'Instructor')
+    )
+    
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter username'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Enter E-mail'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter password'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter confirm password'}))
-
+    
+    role = forms.ChoiceField(choices=ROLE_CHOICES, required=True)
+    
     
     class Meta:
         model = User

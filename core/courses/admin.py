@@ -24,3 +24,5 @@ class Course(admin.ModelAdmin):
     readonly_fields = ['slug']
 
     
+    
+admin.site.register(Module)    
